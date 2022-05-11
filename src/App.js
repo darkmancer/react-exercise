@@ -6,6 +6,7 @@ import { getCovid } from "./service/service";
 export default function App() {
   const [count, setCount] = useState(0);
   const [show, setShow] = useState();
+  const [covidNumber, setCovidNumber] = useState();
 
   let incrementCount = () => {
     setCount(count + 1);
@@ -23,15 +24,20 @@ export default function App() {
     document.title = `You clicked ${count} times`;
   });
 
-
   useEffect(() => {
-    alert('Welcome to COUNTER APP BITCH')
-    getCovid()
+    alert("Welcome to COUNTER APP BITCH");
+    const fetchData = async() => {
+      const data = await getCovid();
+      console.log(data);
+      setCovidNumber(data.total_case);
+    }
+    fetchData()
   }, []);
 
   useEffect(() => {
-    alert('TOGGLED BITCH')
+    alert("TOGGLED BITCH");
   }, [show]);
+  console.log(covidNumber);
 
   return (
     <div className="app">
@@ -44,7 +50,8 @@ export default function App() {
         ) : (
           <></>
         )}
-
+        <div />
+        <div class="count">TOTAL COVID INFECTED {covidNumber}</div>
         <div class="buttons">
           <Button title={"-"} action={decrementCount} />
           <Button title={"+"} action={incrementCount} />
